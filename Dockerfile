@@ -23,7 +23,10 @@ RUN mkdir -p /var/www/storage/logs \
 RUN composer install --no-dev --optimize-autoloader
 
 # Dipendenze e build frontend (crea public/build/manifest.json)
-RUN npm ci && npm run build
+RUN npm install
+RUN npm run build
+RUN test -f public/build/manifest.json
+
 
 # Cache (opzionale ma consigliato)
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
