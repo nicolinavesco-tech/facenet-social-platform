@@ -22,6 +22,9 @@ RUN mkdir -p /var/www/storage/logs \
 # Dipendenze PHP
 RUN composer install --no-dev --optimize-autoloader
 
+# Crea link storage pubblico
+RUN php artisan storage:link || true
+
 # Dipendenze e build frontend (crea public/build/manifest.json)
 RUN npm install
 RUN npm run build
