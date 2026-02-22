@@ -15,6 +15,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 COPY . .
 
+RUN mkdir -p /var/www/storage/logs \
+ && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+ && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 # Dipendenze PHP
 RUN composer install --no-dev --optimize-autoloader
 
@@ -26,4 +30,4 @@ RUN php artisan config:cache && php artisan route:cache && php artisan view:cach
 
 EXPOSE 10000
 
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD sh -c "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
