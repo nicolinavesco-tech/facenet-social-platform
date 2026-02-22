@@ -25,11 +25,13 @@ RUN composer install --no-dev --optimize-autoloader
 # Dipendenze e build frontend (crea public/build/manifest.json)
 RUN npm install
 RUN npm run build
+RUN ls -la public || true
+RUN ls -la public/build || true
 RUN test -f public/build/manifest.json
 
 
 # Cache (opzionale ma consigliato)
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+# RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 EXPOSE 10000
 
